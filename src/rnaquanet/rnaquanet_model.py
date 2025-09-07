@@ -1,10 +1,8 @@
-
 import torch
 import torch.nn as nn
 
 from torch_geometric import nn as gnn
 import lightning as L
-
 
 
 class RNAQuANet(L.LightningModule):
@@ -25,15 +23,15 @@ class RNAQuANet(L.LightningModule):
         )
 
         self.GCN2Conv1 = gnn.GeneralConv(
-            number_of_node_features * 4, number_of_node_features , in_edge_channels=35
+            number_of_node_features * 4, number_of_node_features, in_edge_channels=35
         )
-       
+
         self.fc1 = nn.Linear(number_of_node_features, number_of_node_features)
         self.fc3 = nn.Linear(number_of_node_features, 1)
         self.dropout = nn.Dropout(0.2)
         self.activation = nn.ReLU()
         self.aggregation = gnn.aggr.SetTransformerAggregation(
-            number_of_node_features,dropout=0.2,layer_norm=True
+            number_of_node_features, dropout=0.2, layer_norm=True
         )
 
     def forward(self, x, edge_index, edge_attr, batch):
@@ -57,7 +55,6 @@ class RNAQuANet(L.LightningModule):
         y = self.fc1(y)
         y = self.activation(y)
         y = self.dropout(y)
-
 
         y = self.fc3(y)
 
@@ -88,4 +85,3 @@ class RNAQuANet(L.LightningModule):
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(self.parameters(), lr=1e-4)
         return optimizer
-    

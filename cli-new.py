@@ -66,13 +66,11 @@ def send_and_receive_pdb_file(
 
 if __name__ == "__main__":
     parse = argparse.ArgumentParser(description="RNAQuANet batch processing")
-    parse.add_argument("-i", "--input_dir", type=str, help="Input dir", required=True)
-    parse.add_argument("-c", "--csv_input", type=str, help="CSV input", required=True)
+    parse.add_argument("-i", "--input_dir", type=str, help="Input dir")
+    parse.add_argument("-c", "--csv_input", type=str, help="CSV input")
+    parse.add_argument("-r", "--rmsd_col", type=str, help="RMSD column in csv")
     parse.add_argument(
-        "-r", "--rmsd_col", type=str, help="RMSD column in csv", required=True
-    )
-    parse.add_argument(
-        "-d", "--description", type=str, help="description column in csv", required=True
+        "-d", "--description", type=str, help="description column in csv"
     )
     parse.add_argument("-p", "--name", type=str, help="name column in csv")
     parse.add_argument("-o", "--output_dir", type=str, help="Output dir", required=True)
@@ -82,65 +80,70 @@ if __name__ == "__main__":
     args = parse.parse_args()
     entries = []
     done = 0
-    with open(args.csv_input, "r") as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            # Access the columns using the names you provided
-            rmsd_value = row[args.rmsd_col]
-            description_value = row[args.description]
-            if args.name:
-                name_value = row[args.name]
-            else:
-                name_value = description_value.split(".")[0]
-            # Do something with the values
-            if not os.path.exists(os.path.join(args.input_dir, f"{description_value}")):
-                print(
-                    f"Skipping {os.path.join(args.input_dir, f'{description_value}')} as it does not exist in input directory."
-                )
-                continue
-            if not os.path.exists(f"{args.output_dir}/{name_value}.pt"):
-                entries.append([rmsd_value, description_value, name_value])
-            else:
-                done += 1
-                # print(
-                #     f"Skipping {description_value} as it already exists in output directory."
-                # )
-    import random
+    if not args.input_dir == None:
+        with open(args.csv_input, "r") as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                # Access the columns using the names you provided
+                rmsd_value = row[args.rmsd_col]
+                description_value = row[args.description]
+                if args.name:
+                    name_value = row[args.name]
+                else:
+                    name_value = description_value.split(".")[0]
+                # Do something with the values
+                if not os.path.exists(
+                    os.path.join(args.input_dir, f"{description_value}")
+                ):
+                    print(
+                        f"Skipping {os.path.join(args.input_dir, f'{description_value}')} as it does not exist in input directory."
+                    )
+                    continue
+                if not os.path.exists(f"{args.output_dir}/{name_value}.pt"):
+                    entries.append([rmsd_value, description_value, name_value])
+                else:
+                    done += 1
+                    # print(
+                    #     f"Skipping {description_value} as it already exists in output directory."
+                    # )
+        import random
 
-    random.shuffle(entries)
-    entries_splited = []
-    split_by = int(args.process_number)
-    for i in range(split_by + 1):
-        entries_splited.append(
-            entries[i * len(entries) // split_by : (i + 1) * len(entries) // split_by]
+        random.shuffle(entries)
+        entries_splited = []
+        split_by = int(args.process_number)
+        for i in range(split_by + 1):
+            entries_splited.append(
+                entries[
+                    i * len(entries) // split_by : (i + 1) * len(entries) // split_by
+                ]
+            )
+        print(
+            f"Splitting {len(entries)} entries into {len(entries_splited)} processes. Done: {done} entries.",
+            flush=True,
         )
-    print(
-        f"Splitting {len(entries)} entries into {len(entries_splited)} processes. Done: {done} entries.",
-        flush=True,
-    )
-    logging.basicConfig(
-        filename="rnaquanet.log",
-        filemode="a",
-        format="%(asctime)s,%(msecs)03d %(name)s %(levelname)s %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
-        level=logging.DEBUG,
-    )
+        logging.basicConfig(
+            filename="rnaquanet.log",
+            filemode="a",
+            format="%(asctime)s,%(msecs)03d %(name)s %(levelname)s %(message)s",
+            datefmt="%Y-%m-%d %H:%M:%S",
+            level=logging.DEBUG,
+        )
 
-    with mp.Pool(split_by) as pool:
-        pool.starmap(
-            send_and_receive_pdb_file,
-            [
-                (
-                    entries,
-                    str(args.input_dir),
-                    str(args.output_dir),
-                )
-                for entries in entries_splited
-            ],
-        )
+        with mp.Pool(split_by) as pool:
+            pool.starmap(
+                send_and_receive_pdb_file,
+                [
+                    (
+                        entries,
+                        str(args.input_dir),
+                        str(args.output_dir),
+                    )
+                    for entries in entries_splited
+                ],
+            )
     dataset = RNAQuANetDataset(f"{args.output_dir}")
     val_model = RNAQuANet.load_from_checkpoint(
-        "/home/adamczykb/rnaquanet/epoch=35-step=2448.ckpt",
+        "./epoch=35-step=2448.ckpt",
         number_of_node_features=dataset[0].x.shape[1],
         strict=False,
     ).eval()
