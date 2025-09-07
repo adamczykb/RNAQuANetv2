@@ -4,6 +4,10 @@ import multiprocessing as mp
 import requests
 import logging
 import os
+import torch
+
+from src.rnaquanet.rnaquanet_model import RNAQuANet
+from src.rnaquanet.dataset.RNAQuANetDataset import RNAQuANetDataset
 
 
 def send_and_receive_pdb_file(
@@ -33,13 +37,17 @@ def send_and_receive_pdb_file(
             if not os.path.exists(
                 os.path.join(
                     "/".join(
-                        os.path.join(f"{output}/{name_value}.pt").split(os.path.sep)[:-1]
+                        os.path.join(f"{output}/{name_value}.pt").split(os.path.sep)[
+                            :-1
+                        ]
                     )
                 )
             ):
                 os.makedirs(
                     "/".join(
-                        os.path.join(f"{output}/{name_value}.pt").split(os.path.sep)[:-1]
+                        os.path.join(f"{output}/{name_value}.pt").split(os.path.sep)[
+                            :-1
+                        ]
                     )  # Create output directory if it does not exist
                 )
             with open(f"{output}/{name_value}.pt", "wb") as pt_file_output:
@@ -118,7 +126,7 @@ if __name__ == "__main__":
         level=logging.DEBUG,
     )
 
-    with mp.Pool(15) as pool:
+    with mp.Pool(split_by) as pool:
         pool.starmap(
             send_and_receive_pdb_file,
             [
@@ -130,4 +138,39 @@ if __name__ == "__main__":
                 for entries in entries_splited
             ],
         )
+    dataset = RNAQuANetDataset(f"{args.output_dir}")
+    val_model = RNAQuANet.load_from_checkpoint(
+        "/home/adamczykb/rnaquanet/epoch=35-step=2448.ckpt",
+        number_of_node_features=dataset[0].x.shape[1],
+        strict=False,
+    ).eval()
+
+    with open(f"{args.output_dir}/results.csv", "w") as f:
+        res = []
+        writer = csv.writer(f)
+        writer.writerow(["Name", "RMSD"])
+        for i in range(len(dataset)):
+            name = dataset.processed_file_names[i]
+            i = dataset[i]
+            res.append(
+                [
+                    name,
+                    float(
+                        abs(
+                            i.y.cpu()
+                            - val_model(
+                                i.x.cuda(),
+                                i.edge_index.cuda(),
+                                i.edge_attr.cuda(),
+                                torch.zeros(i.x.shape[0], dtype=torch.int64).cuda(),
+                            )
+                            .detach()
+                            .cpu()
+                            .numpy()
+                        )
+                    ),
+                ]
+            )
+
+        writer.writerows(res)
     print("All processes completed.")
