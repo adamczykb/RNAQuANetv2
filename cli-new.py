@@ -143,7 +143,7 @@ if __name__ == "__main__":
             )
     dataset = RNAQuANetDataset(f"{args.output_dir}")
     val_model = RNAQuANet.load_from_checkpoint(
-        "./epoch=35-step=2448.ckpt",
+        "./model.ckpt",
         number_of_node_features=dataset[0].x.shape[1],
         strict=False,
     ).eval()

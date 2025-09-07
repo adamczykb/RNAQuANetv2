@@ -12,18 +12,18 @@ class RNAQuANet(L.LightningModule):
         self.norm1 = gnn.BatchNorm(number_of_node_features)
 
         self.GATconv1 = gnn.GATv2Conv(
-            number_of_node_features, number_of_node_features, heads=4, edge_dim=35
+            number_of_node_features, number_of_node_features, heads=4, edge_dim=36
         )
 
         self.GATconv2 = gnn.GATv2Conv(
-            number_of_node_features * 4, number_of_node_features, heads=4, edge_dim=35
+            number_of_node_features * 4, number_of_node_features, heads=4, edge_dim=36
         )
         self.GATconv3 = gnn.GATv2Conv(
-            number_of_node_features * 4, number_of_node_features, heads=4, edge_dim=35
+            number_of_node_features * 4, number_of_node_features, heads=4, edge_dim=36
         )
 
         self.GCN2Conv1 = gnn.GeneralConv(
-            number_of_node_features * 4, number_of_node_features, in_edge_channels=35
+            number_of_node_features * 4, number_of_node_features, in_edge_channels=36
         )
 
         self.fc1 = nn.Linear(number_of_node_features, number_of_node_features)
