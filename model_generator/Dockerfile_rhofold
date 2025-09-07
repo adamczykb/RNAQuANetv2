@@ -1,0 +1,25 @@
+FROM python:3.7
+
+RUN DEBIAN_FRONTEND=noninteractive apt update -y && apt upgrade -y 
+RUN apt install -y wget git 
+
+RUN mkdir -p /opt/
+WORKDIR /opt
+USER root
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+RUN bash ./Miniconda3-latest-Linux-x86_64.sh  -b -p /opt/conda
+ENV CONDA_DIR=/opt/conda
+ENV PATH=$CONDA_DIR/bin:$PATH
+RUN git clone https://github.com/ml4bio/RhoFold.git
+WORKDIR /opt/RhoFold
+RUN conda env create -f ./envs/environment_linux.yaml
+RUN conda init bash
+RUN python setup.py install
+WORKDIR /opt/RhoFold/pretrained/
+RUN wget https://proj.cse.cuhk.edu.hk/aihlab/RhoFold/api/download?filename=RhoFold_pretrained.pt -O RhoFold_pretrained.pt
+WORKDIR /opt/RhoFold/
+ARG FASTA_FILE
+ARG OUTPUT_DIR
+RUN chmod 777 . -R
+RUN /opt/RhoFold/database/bin/builddb.sh
+ENTRYPOINT ["/bin/bash", "-c", "source activate base && conda activate rhofold && /opt/conda/envs/rhofold/bin/python /opt/RhoFold/inference.py --ckpt /opt/RhoFold/pretrained/RhoFold_pretrained.pt --device cuda:0 --output_dir /data/$OUTPUT_DIR --input_fas /data/$FASTA_FILE"]

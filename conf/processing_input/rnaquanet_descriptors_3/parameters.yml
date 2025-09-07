@@ -1,0 +1,43 @@
+name: 'rnaquadataset_descriptors_3' # nazwa zbioru danych
+tools_path: '/app/tools' # ścieżka do folderu z narzędziami zewnętrznymi wykorzystywanymi w pipeline
+verbose: True
+data:
+  path: '/app/data' # ścieżka do folderu gdzie mają być zapisywane dane
+  download:
+    url: 'https://rnasolo.cs.put.poznan.pl/media/rnaquanet_descriptor_3segment.tar.xz' # adres do pobrania zbioru danych
+    train_folder: 'train' # ścieżka do folderu wewnątrz archiwum ze zbiorem treningowym
+    val_folder: 'val' # ścieżka do folderu wewnątrz archiwum ze zbiorem walidacyjnym
+    test_folder: 'test' # ścieżka do folderu wewnątrz archiwum ze zbiorem testowym
+    csv_delimiter: ',' # separator stosowany wewnątrz pliku CSV (zazwyczaj jest to przecinek)
+    csv_rmsd_column_name: 'rmsd' # nazwa kolumny w pliku CSV z wartością RMSD
+    csv_structure_column_name: 'file' # nazwa kolumny w pliku CSV z nazwą plików której dotyczy RMSD
+  download_preprocessed:
+    train_url: '' # adres do pobrania pliku H5 ze zbiorem treningowym
+    val_url: '' # adres do pobrania pliku H5 ze zbiorem walidacyjnym
+    test_url: '' # adres do pobrania pliku H5 ze zbiorem testowym
+  features:
+    tools_path : "${globals:tools_path}"
+    fr3d_url: "${globals:fr3d_url}"
+    atom_for_distance_calculations: "C1'"
+    max_euclidean_distance: '16.0'
+    regenerate_features_when_exists: False
+    na_solution: 'ENCODER' # ENCODER, ANTCZAK,NONE
+network:
+  model_output_path: '/app/models'
+  hidden_dim: 128
+  layer_type: 4
+  num_of_heads: 1
+  num_of_layers: 8
+  num_of_node_features: 99
+  batch_norm: False
+  gat_dropout: 0.1
+  lr: 0.0001
+  weight_decay: 0.2
+  scheduler_step_size: 10
+  scheduler_gamma: 0.5
+  batch_size: 1000
+  num_workers: 1
+  shuffle_train: True
+  shuffle_val: False
+  shuffle_test: False
+  max_epochs: 50

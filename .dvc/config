@@ -1,0 +1,5 @@
+[core]
+    remote = homelab
+['remote "homelab"']
+    url = ssh://adamczykb@192.168.88.181:/data_ssd1/dvc
+    ask_passphrase = true

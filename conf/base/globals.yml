@@ -1,0 +1,5 @@
+tools_path: '/home/adamczykb/rnaquanet/tools/' # url to service providing processing tools
+fr3d_url : 'http://127.0.0.1:3355'
+x3dna_path: '/home/adamczykb/rnaquanet/tools/x3dna-dssr'
+# fr3d_url : 'https://fr3d.bartekadamczyk.eu'
+verbose: True

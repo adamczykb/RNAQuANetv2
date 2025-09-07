@@ -1,0 +1,36 @@
+
+test:
+  filepath: "data/01_raw/PZ04/test.csv"
+  type: pandas.CSVDataset
+  load_args:
+    sep: ","
+
+
+test_processed:
+  filepath: "data/03_primary/PZ04/test_processed.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","
+
+
+
+
+test_full_dataset:
+  filepath: "data/04_feature/PZ04/test_full_dataset.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","
+
+
+
+test_compressed:
+  filepath: "data/05_feature_compressed/PZ04/test_compressed.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","

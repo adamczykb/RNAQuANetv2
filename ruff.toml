@@ -1,0 +1,21 @@
+line-length = 127 # The formatter wraps lines at a length of 127
+extend-include = ["*.ipynb"] # Allow linting jupyter notebooks.
+
+[lint]
+select = ["ALL"] # It will be clear after some time what rules we do not want, so for now let's use all of them
+ignore = [
+    "D203", # Disable "1 blank line required before class docstring" as it is not compatible with D211
+    "D213", # Disable "Multi-line docstring summary should start at the second line" as it is not compatible with D212
+    "COM812", # The following rules may cause conflicts when used with the formatter: `COM812`, `ISC001`.
+    "ISC001", # The following rules may cause conflicts when used with the formatter: `COM812`, `ISC001`.
+    "T201", # Disable as "prints may be used by some people".
+    "C408", # Disable "Unnecessary (dict/list/tuple) call - rewrite as a literal"
+    "TRY003", # Disable  Exception must not use a string literal, assign to variable first
+    "EM101", # Disable Exception must not use a string literal, assign to variable fir
+    "ANN101", # Disable "Missing type annotation for 'self' in method"
+    "BLE001", # Disable "Do not catch blind exception: 'Exception'"
+    "TCH004" # Disable "Move import out of type-checking block"
+]
+
+[pycodestyle]
+max-line-length = 127 # E501 reports lines that exceed the length of 127

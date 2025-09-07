@@ -1,0 +1,84 @@
+train:
+  filepath: "data/01_raw/rnaquanet_structures/train.csv"
+  type: pandas.CSVDataset
+  load_args:
+    sep: ","
+val:
+  filepath: "data/01_raw/rnaquanet_structures/val.csv"
+  type: pandas.CSVDataset
+  load_args:
+    sep: ","
+test:
+  filepath: "data/01_raw/rnaquanet_structures/test.csv"
+  type: pandas.CSVDataset
+  load_args:
+    sep: ","
+
+train_processed:
+  filepath: "data/03_primary/rnaquanet_structures/train_processed.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","
+val_processed:
+  filepath: "data/03_primary/rnaquanet_structures/val_processed.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","
+
+test_processed:
+  filepath: "data/03_primary/rnaquanet_structures/test_processed.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","
+
+train_full_dataset:
+  filepath: "data/04_feature/rnaquanet_structures/train_full_dataset.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","
+val_full_dataset:
+  filepath: "data/04_feature/rnaquanet_structures/val_full_dataset.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","
+
+test_full_dataset:
+  filepath: "data/04_feature/rnaquanet_structures/test_full_dataset.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","
+
+train_compressed:
+  filepath: "data/05_feature_compressed/rnaquanet_structures/train_compressed.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","
+val_compressed:
+  filepath: "data/05_feature_compressed/rnaquanet_structures/val_compressed.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","
+
+test_compressed:
+  filepath: "data/05_feature_compressed/rnaquanet_structures/test_compressed.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","

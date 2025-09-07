@@ -1,0 +1,26 @@
+name: "PZ04" # nazwa zbioru danych
+verbose: True
+data:
+  download:
+    url: "" # adres do pobrania zbioru danych
+    train_directory: "train" # ścieżka do directoryu wewnątrz archiwum ze zbiorem treningowym
+    val_directory: "val" # ścieżka do directoryu wewnątrz archiwum ze zbiorem walidacyjnym
+    test_directory: "test" # ścieżka do directoryu wewnątrz archiwum ze zbiorem testowym
+    csv_rmsd_column_name: "rmsd" # nazwa kolumny w pliku CSV z wartością RMSD
+    csv_structure_column_name: "description" # nazwa kolumny w pliku CSV z nazwą plików której dotyczy RMSD
+    csv_delimiter: "," # separator stosowany wewnątrz pliku CSV (zazwyczaj jest to przecinek)
+  preprocessed:
+    train_url: "" # adres do pobrania pliku H5 ze zbiorem treningowym
+    val_url: "" # adres do pobrania pliku H5 ze zbiorem walidacyjnym
+    test_url: "" # adres do pobrania pliku H5 ze zbiorem testowym
+  features:
+    tools_path: "${globals:tools_path}"
+    # tool_url_name: ["fr3d", "${globals:fr3d_url}"]
+    basepair_tool: 
+      name: "x3dna"
+      path: "${globals:x3dna_path}"
+    pairing_features: "extended"
+    atom_for_distance_calculations: "C1'"
+    max_euclidean_distance: "16.0"
+    regenerate_features_when_exists: True
+    na_solution: "ENCODER" # ENCODER, ANTCZAK,NONE

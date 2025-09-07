@@ -1,0 +1,8 @@
+2025-04-28 20:37:13,168 - INFO: Constructing RhoFold
+2025-04-28 20:37:13,616 - INFO:     loading /opt/RhoFold/pretrained/RhoFold_pretrained.pt
+2025-04-28 20:37:14,060 - INFO: Input_fas /data/test.fasta
+2025-04-28 20:37:14,083 - INFO: Started BLASTN scearch @ rnacentral.fasta
+2025-04-28 20:37:14,114 - INFO: Finished BLASTN scearch @ rnacentral.fasta in 0.031 seconds
+2025-04-28 20:37:14,114 - ERROR:     BLAST failed. BLAST stderr begin:
+2025-04-28 20:37:14,115 - ERROR: BLAST Database error: No alias or index file found for nucleotide database [./database/rnacentral.fasta] in search path [/opt/RhoFold::]
+2025-04-28 20:37:14,115 - ERROR:     BLAST stderr end

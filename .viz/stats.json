@@ -1,0 +1,1 @@
+{"train_compressed": {"rows": 286000, "columns": 100, "file_size": 207033538}, "train": {"rows": 10000, "columns": 41, "file_size": 2922775}, "val_compressed": {"rows": 90000, "columns": 100, "file_size": 65490541}, "val": {"rows": 4000, "columns": 41, "file_size": 1165677}}

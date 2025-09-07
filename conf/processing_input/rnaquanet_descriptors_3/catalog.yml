@@ -1,0 +1,9 @@
+train:
+  filepath: 'data/01_raw/rnaquadataset_descriptors_3/train.csv'
+  type: pandas.CSVDataset
+val:
+  filepath: 'data/01_raw/rnaquadataset_descriptors_3/val.csv'
+  type: pandas.CSVDataset
+test:
+  filepath: 'data/01_raw/rnaquadataset_descriptors_3/test.csv'
+  type: pandas.CSVDataset

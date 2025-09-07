@@ -1,0 +1,93 @@
+train:
+  filepath: "data/01_raw/ares_tiny/train.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: " "
+  load_args:
+    sep: " "
+val:
+  filepath: "data/01_raw/ares_tiny/val.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: " "
+  load_args:
+    sep: " "
+test:
+  filepath: "data/01_raw/ares_tiny/test.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: " "
+  load_args:
+    sep: " "
+
+train_processed:
+  filepath: "data/03_primary/ares_tiny/train_processed.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","
+val_processed:
+  filepath: "data/03_primary/ares_tiny/val_processed.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","
+
+test_processed:
+  filepath: "data/03_primary/ares_tiny/test_processed.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","
+
+train_full_dataset:
+  filepath: "data/04_feature/ares_tiny/train_full_dataset.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","
+val_full_dataset:
+  filepath: "data/04_feature/ares_tiny/val_full_dataset.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","
+
+test_full_dataset:
+  filepath: "data/04_feature/ares_tiny/test_full_dataset.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","
+
+train_compressed:
+  filepath: "data/05_feature_compressed/ares_tiny/train_compressed.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","
+val_compressed:
+  filepath: "data/05_feature_compressed/ares_tiny/val_compressed.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","
+
+test_compressed:
+  filepath: "data/05_feature_compressed/ares_tiny/test_compressed.csv"
+  type: pandas.CSVDataset
+  save_args:
+    sep: ","
+  load_args:
+    sep: ","
+
+
+
